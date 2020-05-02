@@ -1,0 +1,88 @@
+Grep commands in linux
+
+grep "abc" file.txt //grep is case sensitive
+
+
+grep -win -B 4 "abc" file.txt 
+
+w - only the exact words
+i - case not sensitive (capital or simple letters)
+n - search with line number
+
+B - find before lines of the search result (parameter is 4 lines before)
+A - after the search (parameter - how many lines after)
+C - surroundings of the search (parameter - how many lines before and after)
+
+
+search in a multiple files
+grep -win "abc" ./*
+(find the keyword abc in current directory files not in subdirectory)
+to find in the sub directory use following command (user recursive search)
+grep -winr "abc" .
+
+find the files only in the current directory that matches the abc
+grep -wirl "abc" .
+how many matches in each file (same as above but line no)
+grep -wirc "abc" .
+
+only search git commit
+history | grep "git commit" | grep "name of the commit"
+
+
+
+-----------------
+Using regular expressions
+(POSIX regular expressions)
+
+grep for a phone number
+grep "...-...-...." name.txt
+(. - any character)
+
+Regular expressions with POSIX compatible
+grep -P "\d{3}-\d{3}-\d{4}." name.txt (in linux)
+
+all the files that contains phone number
+grep -wirlP "\d{3}-\d{3}-\d{4}." .
+
+------------------------------------
+
+AWK COMMANDS
+
+print all the lines in the test.txt file
+awk '{ print }' test.txt
+
+print only first column in the file 
+awk '{ print $1 }' test.txt
+print only second column in the file 
+awk '{ print $2 }' test.txt
+
+print only first column and second column
+awk '{ print $1,$2 }' test.txt
+
+search with regular expressions (case sensitive)
+awk '/SearchWord/ { print }' test.txt
+
+search lines at least one lower letter
+awk '/[a-z]/ { print }' test.txt
+
+search only start with a number (caret is used to starting point)
+awk '/^[0-9]/ { print }' test.txt
+
+search only end with a number ($ is used to ending point)
+awk '/[0-9]$/ { print }' test.txt
+
+include if statements in the command (print lines first word equal to searchkey)
+(~ represents the equal sign in awk)
+awk '{ if($1 ~ /searchkey/) print }' test.txt
+
+
+Using pipe to filter information (any line that contains a number)
+grep -i test test.txt | awk '/^[0-9]/ { print }'
+
+return second column base on the : sign
+awk -F: '{ print $2 }' test.txt
+example - x:name
+output - name
+
+
+            
